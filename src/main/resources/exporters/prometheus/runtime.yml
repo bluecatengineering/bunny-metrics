@@ -1,0 +1,24 @@
+# Metrics collector
+name: Runtime
+# MBean name to be looked up.
+# Note: Trino JMX Connector allows * (asterisk) as wildcard.
+beanName: java.lang:type=runtime
+metrics:
+  # A meaningful name to help organize your metrics.
+  - name: VM Details
+    # List of metric attributes exposed to exporter
+    attributes:
+    # Metric attributes available through VTL
+      description: Amount of time VM is up
+      type: GAUGE
+      # Allow override Exporter's `output` as a template
+      # Exporter's output is still available through `$exporter.output()`
+    output: |
+      ########## APPEND METRIC NAME WITH "_total"
+      #set( $name = "${name}_total" )
+      ########## REMOVE LABELS DEFAULT VALUES TO BE PRINTED
+      #set( $labels = "" )
+      ########## SET NEW VALUE FROM MBEAN
+      #set( $value = ${mbean.properties.uptime} )
+      ########## EVALUATE EXPORTER DEFAULT OUTPUT
+      #evaluate( $exporter.output() )

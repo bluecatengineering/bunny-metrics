@@ -1,0 +1,11 @@
+micronaut:
+  server:
+    port: 8090
+  application:
+    name: trinoSidecar
+
+trino:
+  host: "localhost"
+  port: 8080
+  authentication:
+    user: "test"

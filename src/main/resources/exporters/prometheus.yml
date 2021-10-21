@@ -1,0 +1,37 @@
+name: prometheus
+execute: |
+  #set( $name = "#if($metric.name)${metric.name}#{else}${mbean.name}#end" )
+  #set( $name = "#sanName( $name )" )##
+  #set( $description = "#if($metric.description)${metric.description}#{else}${mbean.name}#end" )
+  #set( $type = "#if($metric.type)${metric.type}#{else}untyped#end" )
+  #if( $mbean && !$mbean.properties.isEmpty() )
+  #set( $labels = $mbean.properties )
+  #end
+  #set( $value = ${metric.getOrDefault("value", null)} )
+  #set( $timestamp = ${metric.getOrDefault("timestamp", null)} )
+  ########## - MACRO - SANITIZE LABEL NAME
+  #macro( sanLabelName $input )
+  ${input.replaceAll("[^a-zA-Z0-9_]", "_").replaceAll("^[^a-zA-Z]*","")}##
+  #end
+  ########## - MACRO - SANITIZE METRIC NAME
+  #macro( sanName $input )
+  ${input.replaceAll("[^a-zA-Z0-9_]", "_").replaceAll("^[^a-zA-Z_]*","")}##
+  #end
+  ########## - MACRO - OUTPUT LABELS WITH SANITIZE
+  #macro( labels $input )
+  #if( !$input.isEmpty() )##
+  {##
+  #foreach( $item in $input.entrySet() )##
+  #sanLabelName( ${item.key} )="${item.value}",##
+  #end##
+  }##
+  #end##
+  #end
+  ########## - MACRO - OUTPUT LINE
+  #macro( output_line )
+  $name#labels( $labels )#if( $value ) $value#end#if( $timestamp ) $timestamp#end
+  #end
+output: |
+  # HELP $name $description
+  # TYPE $name $type
+  #output_line()

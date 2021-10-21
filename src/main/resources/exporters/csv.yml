@@ -1,0 +1,10 @@
+name: csv
+output: |
+  bean_name,property_name,property_value
+  #if( !$mbean.properties.isEmpty() )##
+  #foreach( $item in $mbean.properties.entrySet() )##
+  #if( $item.key != "object_name" )##
+  $mbean.properties.object_name,$item.key,$!{item.value}
+  #end##
+  #end##
+  #end##

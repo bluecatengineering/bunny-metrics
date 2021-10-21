@@ -1,0 +1,8 @@
+# Metrics collector
+name: All runtime collected snapshots
+# MBean name to be looked up.
+# Note: Trino JMX Connector allows * (asterisk) as wildcard.
+beanName: java.lang:type=runtime
+history: true # default false
+metrics:
+  - name: Listing metrics

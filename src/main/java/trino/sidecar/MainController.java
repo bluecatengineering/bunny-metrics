@@ -3,6 +3,7 @@ package trino.sidecar;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import io.micronaut.context.annotation.Property;
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
@@ -12,32 +13,46 @@ import trino.sidecar.jmx.repository.TrinoMBeansRepository;
 
 import javax.validation.constraints.NotBlank;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Properties;
 
 @Controller()
-public class MetricsController {
+public class MainController {
+
+    @Property(name = "velocityProperties")
+    @Nullable
+    protected Map<String, String> velocityProperties;
 
     @Property(name = "trino.host")
     @NotBlank
-    String trinoHost;
+    protected String trinoHost;
 
     @Property(name = "trino.port")
     @NotBlank
-    String trinoPort;
+    protected String trinoPort;
 
     @Property(name = "trino.authentication")
     @NotBlank
-    HashMap<String, String> authentication;
+    protected HashMap<String, String> authentication;
 
     private TrinoMBeansRepository repository;
     private final LoaderService loaderService;
 
-    public MetricsController(LoaderService loaderService) {
+    public MainController(LoaderService loaderService) {
         this.loaderService = loaderService;
     }
 
     @Get(uri = "/metrics/{exporter}", produces = {MediaType.TEXT_PLAIN})
     public String metrics(String exporter) {
-        return new ExportingService(loaderService.getExporter(exporter), getRepository()).export();
+        Properties apacheVelocityProperties = new Properties();
+        Objects.requireNonNull(velocityProperties).forEach(apacheVelocityProperties::setProperty);
+
+        return new ExportingService(
+            apacheVelocityProperties,
+            loaderService.getExporter(exporter),
+            getRepository()
+        ).export();
     }
 
     @Get(uri = "/mbeans", consumes = {MediaType.APPLICATION_JSON}, produces = {MediaType.APPLICATION_JSON})

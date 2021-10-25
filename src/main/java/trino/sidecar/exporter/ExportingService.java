@@ -6,6 +6,7 @@ import trino.sidecar.jmx.MBeanCallbackListener;
 import trino.sidecar.jmx.repository.MBeansRepository;
 
 import java.io.StringWriter;
+import java.util.Properties;
 
 public class ExportingService {
     private static final int LIMIT_TAG_LENGTH = 30;
@@ -16,14 +17,13 @@ public class ExportingService {
     private final Exporter exporter;
     private final MBeansRepository repository;
 
-    public ExportingService(Exporter exporter, MBeansRepository repository) {
+    public ExportingService(Properties apacheProperties, Exporter exporter, MBeansRepository repository) {
         this.exporter = exporter;
         this.repository = repository;
+        Velocity.init(apacheProperties);
     }
 
     public String export() {
-        Velocity.init();
-
         StringWriter output = new StringWriter();
 
         // Fetch all MBean callback

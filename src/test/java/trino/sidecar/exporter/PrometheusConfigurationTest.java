@@ -15,6 +15,8 @@ import trino.sidecar.jmx.entity.MBean;
 
 import java.io.StringWriter;
 import java.util.Map;
+import java.util.Properties;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 @MicronautTest
@@ -30,7 +32,9 @@ class PrometheusConfigurationTest {
 
     @BeforeAll
     void beforeAll() {
-        Velocity.init();
+        Properties apacheVelocityProperties = new Properties();
+        apacheVelocityProperties.setProperty("space.gobbling", "structured");
+        Velocity.init(apacheVelocityProperties);
         configuration = new Yaml(new Constructor(ExporterConfiguration.class)).load(
             resourceLoader.getResourceAsStream("exporters/prometheus.yml").orElseThrow()
         );

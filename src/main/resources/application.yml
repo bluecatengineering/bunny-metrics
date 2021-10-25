@@ -4,6 +4,9 @@ micronaut:
   application:
     name: trinoSidecar
 
+#velocityProperties:
+#  - space.gobbling: bc
+
 trino:
   host: "localhost"
   port: 8080

@@ -1,5 +1,5 @@
 applicationType: default
-defaultPackage: trino.metrics
+defaultPackage: trino.sidecar
 testFramework: junit
 sourceLanguage: java
 buildTool: gradle

@@ -1,4 +1,4 @@
-package trino.sidecar.exporter;
+package bunny.metrics.exporter;
 
 import io.micronaut.core.io.ResourceLoader;
 import jakarta.inject.Singleton;

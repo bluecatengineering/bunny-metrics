@@ -1,5 +1,6 @@
-package trino.sidecar.exporter;
+package bunny.metrics.exporter;
 
+import bunny.metrics.jmx.entity.MBean;
 import io.micronaut.core.io.ResourceLoader;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
@@ -11,12 +12,10 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
-import trino.sidecar.jmx.entity.MBean;
 
 import java.io.StringWriter;
 import java.util.Map;
 import java.util.Properties;
-import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 @MicronautTest

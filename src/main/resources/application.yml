@@ -2,10 +2,19 @@ micronaut:
   server:
     port: 8090
   application:
-    name: trinoSidecar
+    name: bunnyMetrics
+
+#
+#datasources:
+#  default:
+#    validationQuery: SELECT 1 FROM DUAL
+#    url: jdbc:trino://{trino.host}:{trino.port};
+#    username: {trino.authentication.user}
+#    password: ""
 
 #velocityProperties:
 #  - space.gobbling: bc
+
 
 trino:
   host: "localhost"

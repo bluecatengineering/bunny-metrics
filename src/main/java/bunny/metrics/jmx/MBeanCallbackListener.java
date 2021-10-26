@@ -1,4 +1,4 @@
-package trino.sidecar.jmx;
+package bunny.metrics.jmx;
 
 import java.util.Map;
 import java.util.Optional;

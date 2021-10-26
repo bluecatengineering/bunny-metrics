@@ -1,9 +1,9 @@
-package trino.sidecar.exporter;
+package bunny.metrics.exporter;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import trino.sidecar.jmx.MBeanCallbackListener;
-import trino.sidecar.jmx.repository.MBeansRepository;
+import bunny.metrics.jmx.MBeanCallbackListener;
+import bunny.metrics.jmx.repository.MBeansRepository;
 
 import java.io.StringWriter;
 import java.util.Properties;

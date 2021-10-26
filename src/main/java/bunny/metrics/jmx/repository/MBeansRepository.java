@@ -1,6 +1,6 @@
-package trino.sidecar.jmx.repository;
+package bunny.metrics.jmx.repository;
 
-import trino.sidecar.jmx.entity.MBean;
+import bunny.metrics.jmx.entity.MBean;
 
 import java.util.List;
 import java.util.Optional;

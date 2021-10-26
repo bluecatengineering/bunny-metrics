@@ -1,4 +1,4 @@
-package trino.sidecar;
+package bunny.metrics;
 
 import io.micronaut.runtime.Micronaut;
 

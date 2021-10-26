@@ -1,4 +1,4 @@
-package trino.sidecar.exporter;
+package bunny.metrics.exporter;
 
 import java.util.List;
 

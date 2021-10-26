@@ -1,5 +1,8 @@
-package trino.sidecar;
+package bunny.metrics;
 
+import bunny.metrics.exporter.ExportingService;
+import bunny.metrics.exporter.LoaderService;
+import bunny.metrics.jmx.repository.TrinoMBeansRepository;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import io.micronaut.context.annotation.Property;
@@ -7,9 +10,6 @@ import io.micronaut.core.annotation.Nullable;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
-import trino.sidecar.exporter.LoaderService;
-import trino.sidecar.exporter.ExportingService;
-import trino.sidecar.jmx.repository.TrinoMBeansRepository;
 
 import javax.validation.constraints.NotBlank;
 import java.util.HashMap;

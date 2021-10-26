@@ -1,4 +1,4 @@
-package trino.sidecar.exporter;
+package bunny.metrics.exporter;
 
 public class ExporterConfiguration {
     public String name;

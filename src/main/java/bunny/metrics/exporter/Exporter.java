@@ -1,6 +1,6 @@
-package trino.sidecar.exporter;
+package bunny.metrics.exporter;
 
-import trino.sidecar.jmx.MBeanCallbackListener;
+import bunny.metrics.jmx.MBeanCallbackListener;
 
 import java.util.*;
 

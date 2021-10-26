@@ -1,8 +1,8 @@
-package trino.sidecar.jmx.repository;
+package bunny.metrics.jmx.repository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import trino.sidecar.jmx.entity.MBean;
+import bunny.metrics.jmx.entity.MBean;
 
 import java.sql.*;
 import java.util.*;

@@ -1,0 +1,21 @@
+version: '3'
+
+env:
+  EXPOSED_PORT: 8090
+  BUILD_VERSION: 1.0.0
+
+tasks:
+  build:
+    cmds:
+      - ./gradlew buildLayers
+      - ./gradlew dockerfile
+      - sed 's/EXPOSE [0-9].*/EXPOSE '"$EXPOSED_PORT"'/' build/docker/Dockerfile > tmp; mv tmp build/docker/Dockerfile;
+
+  build_image:
+    cmds:
+      - docker build -t bunny-metrics build/docker/
+      - docker tag bunny-metrics:latest pellicano/bunny-metrics:$BUILD_VERSION
+
+  push_image:
+    cmds:
+      - docker push pellicano/bunny-metrics:$BUILD_VERSION

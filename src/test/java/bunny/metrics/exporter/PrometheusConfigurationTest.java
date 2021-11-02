@@ -32,7 +32,7 @@ class PrometheusConfigurationTest {
     @BeforeAll
     void beforeAll() {
         Properties apacheVelocityProperties = new Properties();
-        apacheVelocityProperties.setProperty("space.gobbling", "structured");
+        apacheVelocityProperties.setProperty("parser.space_gobbling", "structured");
         Velocity.init(apacheVelocityProperties);
         configuration = new Yaml(new Constructor(ExporterConfiguration.class)).load(
             resourceLoader.getResourceAsStream("exporters/prometheus.yml").orElseThrow()

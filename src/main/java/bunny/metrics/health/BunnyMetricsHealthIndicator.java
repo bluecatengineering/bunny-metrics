@@ -32,7 +32,7 @@ public class  BunnyMetricsHealthIndicator extends AbstractHealthIndicator<Map<St
     @NotBlank
     protected String trinoPort;
 
-    @Property(name = "trino.jdbcProperties")
+    @Property(name = "trino.jdbc-properties")
     @NotBlank
     protected HashMap<String, String> jdbcProperties;
 

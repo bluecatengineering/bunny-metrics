@@ -6,10 +6,12 @@ import bunny.metrics.jmx.repository.TrinoMBeansRepository;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import io.micronaut.context.annotation.Property;
+import io.micronaut.context.env.Environment;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import jakarta.inject.Inject;
 
 import javax.validation.constraints.NotBlank;
 import java.util.HashMap;
@@ -32,9 +34,12 @@ public class MainController {
     @NotBlank
     protected String trinoPort;
 
-    @Property(name = "trino.jdbcProperties")
+    @Property(name = "trino.jdbc-properties")
     @NotBlank
     protected HashMap<String, String> jdbcProperties;
+
+    @Inject
+    Environment environment;
 
     private TrinoMBeansRepository repository;
     private final LoaderService loaderService;

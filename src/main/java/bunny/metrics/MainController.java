@@ -32,9 +32,9 @@ public class MainController {
     @NotBlank
     protected String trinoPort;
 
-    @Property(name = "trino.authentication")
+    @Property(name = "trino.jdbcProperties")
     @NotBlank
-    protected HashMap<String, String> authentication;
+    protected HashMap<String, String> jdbcProperties;
 
     private TrinoMBeansRepository repository;
     private final LoaderService loaderService;
@@ -75,7 +75,7 @@ public class MainController {
     private TrinoMBeansRepository getRepository() {
         if (repository == null) {
             // TODO inject factory inside constructor using Micronaut build-in structure
-            repository = TrinoMBeansRepository.factory(trinoHost, trinoPort, authentication);
+            repository = TrinoMBeansRepository.factory(trinoHost, trinoPort, jdbcProperties);
         }
         return repository;
     }

@@ -16,5 +16,5 @@ endpoints:
 trino:
   host: "localhost"
   port: 8080
-  authentication:
+  jdbcProperties:
     user: "test"

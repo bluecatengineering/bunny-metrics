@@ -32,9 +32,9 @@ public class  BunnyMetricsHealthIndicator extends AbstractHealthIndicator<Map<St
     @NotBlank
     protected String trinoPort;
 
-    @Property(name = "trino.authentication")
+    @Property(name = "trino.jdbcProperties")
     @NotBlank
-    protected HashMap<String, String> authentication;
+    protected HashMap<String, String> jdbcProperties;
 
     private Map<String, Object> processError(Throwable throwable) {
         LOG.warn("Could not connect to Trino", throwable);
@@ -47,7 +47,7 @@ public class  BunnyMetricsHealthIndicator extends AbstractHealthIndicator<Map<St
     @Override
     protected Map<String, Object> getHealthInformation() {
         try {
-            TrinoMBeansRepository.factory(trinoHost, trinoPort, authentication);
+            TrinoMBeansRepository.factory(trinoHost, trinoPort, jdbcProperties);
             this.healthStatus = HealthStatus.UP;
             return Collections.emptyMap();
         } catch (Exception exception) {

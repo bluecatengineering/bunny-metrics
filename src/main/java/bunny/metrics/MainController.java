@@ -87,7 +87,7 @@ public class MainController {
 
     private JsonArray fetchMBeanResults(String mBeanName) {
         JsonArray jsonArray = new JsonArray();
-        getRepository().getMBean(mBeanName, false).ifPresent(mBean -> {
+        getRepository().getMBean(mBeanName, false).forEach(mBean -> {
             JsonObject properties = new JsonObject();
             mBean.getProperties().forEach(properties::addProperty);
             jsonArray.add(properties);

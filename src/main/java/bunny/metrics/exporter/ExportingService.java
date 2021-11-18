@@ -6,6 +6,7 @@ import bunny.metrics.jmx.MBeanCallbackListener;
 import bunny.metrics.jmx.repository.MBeansRepository;
 
 import java.io.StringWriter;
+import java.util.List;
 import java.util.Properties;
 
 public class ExportingService {
@@ -27,33 +28,36 @@ public class ExportingService {
         StringWriter output = new StringWriter();
 
         // Fetch all MBean callback
-        exporter.getMBeanCallbackListeners().forEach((String mBeanName, MBeanCallbackListener listener) ->
-            repository.getMBean(mBeanName, listener.shouldFetchOnlyHistory()).ifPresent(mBean -> {
-                // Add default Map values providing
-                VelocityContext exporterContext = new VelocityContext();
-                // Add found MBean to collector's context
-                exporterContext.put(KEY_OBJECT_MBEAN, mBean);
-                // Add exporter to that context for metric usage
-                exporterContext.put(KEY_OBJECT_EXPORTER, exporter);
-                // Add metric data to be available during execution
-                exporterContext.put(KEY_OBJECT_METRIC_VALUES, listener.getMetricValues());
-                // Evaluate default Export's "execute" YML property
-                listener.getExecuteTemplate().ifPresent(
-                    executeTemplate -> Velocity.evaluate(
+        exporter.getMBeanCallbackListeners().forEach((String mBeanName, List<MBeanCallbackListener> listOfListeners) ->
+            listOfListeners.forEach(listener ->
+                repository.getMBean(mBeanName, listener.shouldFetchOnlyHistory()).forEach(mBean -> {
+                    // Add default Map values providing
+                    VelocityContext exporterContext = new VelocityContext();
+                    // Add found MBean to collector's context
+                    exporterContext.put(KEY_OBJECT_MBEAN, mBean);
+                    // Add exporter to that context for metric usage
+                    exporterContext.put(KEY_OBJECT_EXPORTER, exporter);
+                    // Add metric data to be available during execution
+                    exporterContext.put(KEY_OBJECT_METRIC_VALUES, listener.getMetricValues());
+                    // Evaluate default Export's "execute" YML property
+                    listener.getExecuteTemplate().ifPresent(
+                        executeTemplate -> Velocity.evaluate(
+                            exporterContext,
+                            output,
+                            listener.getTemplateTag().substring(0, LIMIT_TAG_LENGTH),
+                            executeTemplate
+                        )
+                    );
+                    // Retrieve template to generate output
+                    Velocity.evaluate(
                         exporterContext,
                         output,
                         listener.getTemplateTag().substring(0, LIMIT_TAG_LENGTH),
-                        executeTemplate
-                    )
-                );
-                // Retrieve template to generate output
-                Velocity.evaluate(
-                    exporterContext,
-                    output,
-                    listener.getTemplateTag().substring(0, LIMIT_TAG_LENGTH),
-                    listener.getOutputTemplate()
-                );
-            })
+                        listener.getOutputTemplate()
+                    );
+                    output.append("\n");
+                })
+            )
         );
 
         return output.toString();

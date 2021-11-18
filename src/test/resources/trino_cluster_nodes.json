@@ -1,0 +1,13 @@
+[
+  {
+    "blockednodes": "0",
+    "freedistributedbytes": "751619277",
+    "node": "6184987c6517",
+    "nodes": "1",
+    "object_name": "trino.memory:type=ClusterMemoryPool,name=general",
+    "assignedqueries": "0",
+    "reserveddistributedbytes": "0",
+    "reservedrevocabledistributedbytes": "0",
+    "totaldistributedbytes": "751619277"
+  }
+]

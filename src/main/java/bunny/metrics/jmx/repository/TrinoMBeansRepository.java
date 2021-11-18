@@ -20,29 +20,29 @@ public class TrinoMBeansRepository implements MBeansRepository {
     }
 
     @Override
-    public Optional<MBean> getMBean(String mBeanName, boolean onlyHistory) {
-        Optional<MBean> mBean = Optional.empty();
+    public List<MBean> getMBean(String mBeanName, boolean onlyHistory) {
+        ArrayList<MBean> mBeans = new ArrayList<>();
         mBeanName = sanitize(mBeanName);
         String source = onlyHistory ? SCHEMA_HISTORY : SCHEMA_CURRENT;
 
         try {
             ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM jmx." + source + ".\"" + mBeanName + "\"");
-            HashMap<String, String> properties = new HashMap<>();
             ResultSetMetaData metadata = rs.getMetaData();
             int columnCount = metadata.getColumnCount();
 
             if (rs.next()) {
                 do {
+                    HashMap<String, String> properties = new HashMap<>();
                     for (int i = 1; i <= columnCount; ++i) {
                         properties.put(metadata.getColumnName(i), rs.getString(i));
                     }
+                    mBeans.add(new MBean(mBeanName, properties));
                 } while (rs.next());
-                mBean = Optional.of(new MBean(mBeanName, properties));
             }
         } catch (SQLException e) {
             logger.error("Error while fetching MBean results from Trino", e);
         }
-        return mBean;
+        return mBeans;
     }
 
     @Override

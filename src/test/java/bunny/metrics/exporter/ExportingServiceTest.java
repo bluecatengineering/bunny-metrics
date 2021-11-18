@@ -23,49 +23,44 @@ class ExportingServiceTest {
 
     @Test
     void propertyMBeanShouldBeAvailableWithinContext() {
-        Assertions.assertEquals(
-            MBEAN_ATTRIBUTE_VALUE,
-            exportingService("${mbean.properties." + MBEAN_ATTRIBUTE_KEY + "}").export()
+        Assertions.assertTrue(
+            exportingService("${mbean.properties." + MBEAN_ATTRIBUTE_KEY + "}").export().contains(MBEAN_ATTRIBUTE_VALUE)
         );
     }
 
     @Test
     void propertyMetricValuesShouldBeAvailableWithinContext() {
-        Assertions.assertEquals(
-            FIRST_METRIC_ATTRIBUTE_VALUE,
-            exportingService("${metric." + FIRST_METRIC_ATTRIBUTE_KEY + "}").export()
+        Assertions.assertTrue(
+            exportingService("${metric." + FIRST_METRIC_ATTRIBUTE_KEY + "}").export().contains(FIRST_METRIC_ATTRIBUTE_VALUE)
         );
     }
 
     @Test
     void propertyExporterShouldBeAvailableWithinContext() {
-        Assertions.assertEquals(
-            Exporter.class.toString(),
-            exportingService("${exporter.getClass()}").export()
+        Assertions.assertTrue(
+            exportingService("${exporter.getClass()}").export().contains(Exporter.class.toString())
         );
     }
 
     @Test
     void defaultExecutePropertyHasToBeEvaluatedBeforeExporterOutput() {
-        Assertions.assertEquals(
-            "foo" + FIRST_METRIC_ATTRIBUTE_VALUE,
+        Assertions.assertTrue(
             exportingService(
                 "foo",
                 null,
                 "${metric." + FIRST_METRIC_ATTRIBUTE_KEY + "}"
-            ).export()
+            ).export().contains("foo" + FIRST_METRIC_ATTRIBUTE_VALUE)
         );
     }
 
     @Test
     void metricOutputShouldBeEvaluatedInsteadOfExporterOutput() {
-        Assertions.assertEquals(
-            "bar" + MBEAN_ATTRIBUTE_VALUE,
+        Assertions.assertTrue(
             exportingService(
                 "bar",
                 "${metric." + FIRST_METRIC_ATTRIBUTE_KEY + "}",
                 "${mbean.properties." + MBEAN_ATTRIBUTE_KEY + "}"
-            ).export()
+            ).export().contains("bar" + MBEAN_ATTRIBUTE_VALUE)
         );
     }
 
@@ -102,8 +97,8 @@ class ExportingServiceTest {
             new Exporter(buildExporterConfiguration(exporterExecute, exporterOutput), List.of(buildCollector(metricOutput))),
             new MBeansRepository() {
                 @Override
-                public Optional<MBean> getMBean(String mBean, boolean onlyHistory) {
-                    return Optional.of(new MBean(ANY_BEAN_NAME,Map.of(MBEAN_ATTRIBUTE_KEY, MBEAN_ATTRIBUTE_VALUE)));
+                public List<MBean> getMBean(String mBean, boolean onlyHistory) {
+                    return List.of(new MBean(ANY_BEAN_NAME,Map.of(MBEAN_ATTRIBUTE_KEY, MBEAN_ATTRIBUTE_VALUE)));
                 }
 
                 @Override

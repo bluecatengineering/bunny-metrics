@@ -63,7 +63,7 @@ public class LoaderService {
         // Load metrics for each exporter
         invokePerEachFileFound(
             DIR_EXPORTER + File.separator + exporterName + File.separator,
-                collectorFile -> {
+            collectorFile -> {
                 try {
                     // Load and add them
                     collectors.add(

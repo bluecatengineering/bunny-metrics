@@ -1,0 +1,13 @@
+name: Trino Cluster and Nodes
+beanName: trino.memory:name=general,type=clustermemorypool
+metrics:
+  - name: Free memory (general pool)
+    attributes:
+      name: trino_nodes_free_bytes
+      description: Free memory (general pool)
+      type: GAUGE
+    output: |
+      #set( $labels = "" )
+      #set( $value = ${mbean.properties.freedistributedbytes} )
+      ########## EVALUATE EXPORTER DEFAULT OUTPUT
+      #evaluate( $exporter.output() )

@@ -17,38 +17,42 @@ public class Exporter {
         return configuration.output;
     }
 
-    public Map<String, MBeanCallbackListener> getMBeanCallbackListeners() {
-        HashMap<String, MBeanCallbackListener> map = new HashMap<>();
+    public Map<String, List<MBeanCallbackListener>> getMBeanCallbackListeners() {
+        HashMap<String, List<MBeanCallbackListener>> map = new HashMap<>();
         listOfCollectors.forEach(
-            collector -> collector.metrics.forEach(
-                metric -> map.put(collector.beanName, new MBeanCallbackListener() {
-                    @Override
-                    public Optional<String> getExecuteTemplate() {
-                        return Optional.ofNullable(configuration.execute);
-                    }
+            collector -> {
+                List<MBeanCallbackListener> listOfListeners = new ArrayList<>();
+                collector.metrics.forEach(
+                    metric -> listOfListeners.add(new MBeanCallbackListener() {
+                        @Override
+                        public Optional<String> getExecuteTemplate() {
+                            return Optional.ofNullable(configuration.execute);
+                        }
 
-                    @Override
-                    public String getTemplateTag() {
-                        return configuration + "__" + collector + "__" + metric;
-                    }
+                        @Override
+                        public String getTemplateTag() {
+                            return configuration + "__" + collector + "__" + metric;
+                        }
 
-                    @Override
-                    public String getOutputTemplate() {
-                        // Metric or Exporter output template
-                        return metric.output != null ? metric.output : configuration.output;
-                    }
+                        @Override
+                        public String getOutputTemplate() {
+                            // Metric or Exporter output template
+                            return metric.output != null ? metric.output : configuration.output;
+                        }
 
-                    @Override
-                    public Map<String, String> getMetricValues() {
-                        return metric.attributes;
-                    }
+                        @Override
+                        public Map<String, String> getMetricValues() {
+                            return metric.attributes;
+                        }
 
-                    @Override
-                    public boolean shouldFetchOnlyHistory() {
-                        return collector.history;
-                    }
-                })
-            )
+                        @Override
+                        public boolean shouldFetchOnlyHistory() {
+                            return collector.history;
+                        }
+                    })
+                );
+                map.put(collector.beanName, listOfListeners);
+            }
         );
         return map;
     }

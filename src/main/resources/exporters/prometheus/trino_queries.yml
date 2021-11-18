@@ -1,0 +1,23 @@
+name: Trino Queries
+beanName: trino.execution:name=QueryManager
+metrics:
+  - name: Running Queries
+    attributes:
+      name: trino_running_queries_count
+      description: Trino Running Queries
+      type: COUNT
+    output: |
+      #set( $labels = "" )
+      #set( $value = ${mbean.properties.runningqueries} )
+      ########## EVALUATE EXPORTER DEFAULT OUTPUT
+      #evaluate( $exporter.output() )
+  - name: Queries Started Within 5 Minutes
+    attributes:
+      name: trino_queries_started_within_five_minutes_count
+      description: Queries Started Within 5 Minutes
+      type: COUNT
+    output: |
+      #set( $labels = "" )
+      #set( $value = ${mbean.properties.get("startedqueries.fiveminute.count")} )
+      ########## EVALUATE EXPORTER DEFAULT OUTPUT
+      #evaluate( $exporter.output() )

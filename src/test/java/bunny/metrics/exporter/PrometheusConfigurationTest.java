@@ -10,13 +10,13 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.StringWriter;
 import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Stream;
+
+import static bunny.metrics.exporter.Helper.loadPrometheusExporter;
 
 @MicronautTest
 @DisplayName("Prometheus exporter")
@@ -34,9 +34,7 @@ class PrometheusConfigurationTest {
         Properties apacheVelocityProperties = new Properties();
         apacheVelocityProperties.setProperty("parser.space_gobbling", "structured");
         Velocity.init(apacheVelocityProperties);
-        configuration = new Yaml(new Constructor(ExporterConfiguration.class)).load(
-            resourceLoader.getResourceAsStream("exporters/prometheus.yml").orElseThrow()
-        );
+        configuration = loadPrometheusExporter(resourceLoader);
     }
 
     @Test

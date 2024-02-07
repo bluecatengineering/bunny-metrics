@@ -43,7 +43,7 @@ jobs:
       - name: Build files
         run: |
           ./gradlew buildLayers
-          sed 's/EXPOSE [0-9].*/EXPOSE '"${{ env.EXPOSED_PORT }}"'/' build/docker/Dockerfile > tmp; mv tmp build/docker/Dockerfile;
+          sed 's/EXPOSE [0-9].*/EXPOSE '"${{ env.EXPOSED_PORT }}"'/' Dockerfile > tmp; mv tmp Dockerfile;
 
       - name: Log in to the Container registry
         uses: docker/login-action@v1

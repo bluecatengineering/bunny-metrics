@@ -5,7 +5,7 @@ metrics:
     attributes:
       name: trino_nodes_free_bytes
       description: Free memory (general pool)
-      type: GAUGE
+      type: gauge
     output: |
       #set( $labels = "" )
       #set( $value = ${mbean.properties.freedistributedbytes} )

@@ -5,7 +5,7 @@ metrics:
     attributes:
       name: trino_running_queries_count
       description: Trino Running Queries
-      type: COUNT
+      type: count
     output: |
       #set( $labels = "" )
       #set( $value = ${mbean.properties.runningqueries} )
@@ -15,7 +15,7 @@ metrics:
     attributes:
       name: trino_queries_started_within_five_minutes_count
       description: Queries Started Within 5 Minutes
-      type: COUNT
+      type: count
     output: |
       #set( $labels = "" )
       #set( $value = ${mbean.properties.get("startedqueries.fiveminute.count")} )

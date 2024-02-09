@@ -19,7 +19,8 @@ public class LoaderService {
     private final HashMap<String, Exporter> exporters = new HashMap<>();
 
     private static final String CONFIG_EXTENSION = ".yml";
-    private static final String DIR_EXPORTER = "exporters" + File.separator;
+    private static final String DIR_EXPORTER = System.getenv().getOrDefault("BUNNY_METRICS_EXPORTERS_DIR", "exporters") + File.separator;
+    private static final String METRICS_DIR = System.getenv().getOrDefault("BUNNY_METRICS_METRICS_DIR", "metrics") + File.separator;
 
     public LoaderService(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
@@ -62,7 +63,7 @@ public class LoaderService {
         ArrayList<Collector> collectors = new ArrayList<>();
         // Load metrics for each exporter
         invokePerEachFileFound(
-            DIR_EXPORTER + File.separator + exporterName + File.separator,
+            METRICS_DIR + exporterName + File.separator,
             collectorFile -> {
                 try {
                     // Load and add them

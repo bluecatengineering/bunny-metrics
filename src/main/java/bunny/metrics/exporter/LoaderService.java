@@ -19,8 +19,8 @@ public class LoaderService {
     private final HashMap<String, Exporter> exporters = new HashMap<>();
 
     private static final String CONFIG_EXTENSION = ".yml";
-    private static final String DIR_EXPORTER = System.getProperty("bunny-metrics.config.exporters", "exporters") + File.separator;
-    private static final String METRICS_DIR = System.getProperty("bunny-metrics.config.metrics", "metrics") + File.separator;
+    private static final String DIR_EXPORTER = System.getProperty("bunnyMetrics.config.exporters", "exporters") + File.separator;
+    private static final String METRICS_DIR = System.getProperty("bunnyMetrics.config.metrics", "metrics") + File.separator;
 
     public LoaderService(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;

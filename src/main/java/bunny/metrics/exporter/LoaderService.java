@@ -80,6 +80,10 @@ public class LoaderService {
 
     protected void invokePerEachFileFound(String rootFolder, PerEachFileLocated func) {
         Optional<URL> url = resourceLoader.getResources(rootFolder).findAny();
+
+        System.out.println("Searching " + rootFolder + "for files");
+        System.out.println("url: " + url);
+
         if (url.isPresent()) {
             try {
                 Arrays.stream(
@@ -96,7 +100,7 @@ public class LoaderService {
 
     public Exporter getExporter(String exporterName) {
         if (!exporters.containsKey(exporterName)) {
-            throw new IllegalArgumentException("Exporter \"" + exporterName + "\"does not exist");
+            throw new IllegalArgumentException("Exporter \"" + exporterName + "\" does not exist");
         }
 
         return exporters.get(exporterName);

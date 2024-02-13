@@ -1,7 +1,6 @@
 package bunny.metrics.exporter;
 
 import io.micronaut.core.io.ResourceLoader;
-import io.micronaut.core.io.file.DefaultFileSystemResourceLoader;
 import jakarta.inject.Singleton;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -80,10 +79,14 @@ public class LoaderService {
     }
 
     protected void invokePerEachFileFound(String rootFolder, PerEachFileLocated func) {
-        Optional<URL> url = new DefaultFileSystemResourceLoader("/").getResources(rootFolder).findAny();
+        Optional<URL> url = resourceLoader.getResources(rootFolder).findAny();
 
         System.out.println("Searching " + rootFolder + " for files");
         System.out.println("url: " + url);
+
+        System.out.println("CLASSPATH: " + System.getProperty("java.class.path"));
+        System.out.println("Working Directory: " + new File(".").getAbsolutePath());
+        System.out.println("Root Path: " + new File("/").getAbsolutePath());
 
         if (url.isPresent()) {
             try {

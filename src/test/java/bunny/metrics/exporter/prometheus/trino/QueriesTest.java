@@ -18,7 +18,7 @@ public class QueriesTest extends BaseMetricTest {
     public void runningQueries() {
         assertMetricContains(
             "# HELP trino_running_queries_count Trino Running Queries\n" +
-            "# TYPE trino_running_queries_count COUNT\n" +
+            "# TYPE trino_running_queries_count counter\n" +
             "trino_running_queries_count 333"
         );
     }
@@ -27,7 +27,7 @@ public class QueriesTest extends BaseMetricTest {
     public void pendingQueries() {
         assertMetricContains(
             "# HELP trino_queries_started_within_five_minutes_count Queries Started Within 5 Minutes\n" +
-                "# TYPE trino_queries_started_within_five_minutes_count COUNT\n" +
+                "# TYPE trino_queries_started_within_five_minutes_count counter\n" +
                 "trino_queries_started_within_five_minutes_count 9.5016044"
         );
     }

@@ -8,7 +8,7 @@ public class ClusterAndNodesTest extends BaseMetricTest {
     public void freeMemory() {
         assertMetricContains(
             "# HELP trino_nodes_free_bytes Free memory (general pool)\n" +
-            "# TYPE trino_nodes_free_bytes GAUGE\n" +
+            "# TYPE trino_nodes_free_bytes gauge\n" +
             "trino_nodes_free_bytes 751619277"
         );
     }

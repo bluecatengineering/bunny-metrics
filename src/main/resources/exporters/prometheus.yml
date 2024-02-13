@@ -3,7 +3,7 @@ execute: |
   #set( $name = "#if($metric.name)${metric.name}#{else}${mbean.name}#end" )
   #set( $name = "#sanName( $name )" )##
   #set( $description = "#if($metric.description)${metric.description}#{else}${mbean.name}#end" )
-  #set( $type = "#if($metric.type)${metric.type}#{else}untyped#end" )
+  #set( $type = "#if($metric.type)${metric.type.toLowerCase()}#{else}untyped#end" )
   #if( $mbean && !$mbean.properties.isEmpty() )
     #set( $labels = $mbean.properties )
   #end

@@ -19,7 +19,8 @@ public class LoaderService {
     private final HashMap<String, Exporter> exporters = new HashMap<>();
 
     private static final String CONFIG_EXTENSION = ".yml";
-    private static final String DIR_EXPORTER = "exporters" + File.separator;
+    private static final String DIR_EXPORTER = System.getProperty("bunnyMetrics.config.exporters", "exporters") + File.separator;
+    private static final String METRICS_DIR = System.getProperty("bunnyMetrics.config.metrics", "metrics") + File.separator;
 
     public LoaderService(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
@@ -62,7 +63,7 @@ public class LoaderService {
         ArrayList<Collector> collectors = new ArrayList<>();
         // Load metrics for each exporter
         invokePerEachFileFound(
-            DIR_EXPORTER + File.separator + exporterName + File.separator,
+            METRICS_DIR + exporterName + File.separator,
             collectorFile -> {
                 try {
                     // Load and add them
@@ -79,6 +80,14 @@ public class LoaderService {
 
     protected void invokePerEachFileFound(String rootFolder, PerEachFileLocated func) {
         Optional<URL> url = resourceLoader.getResources(rootFolder).findAny();
+
+        System.out.println("Searching " + rootFolder + " for files");
+        System.out.println("url: " + url);
+
+        System.out.println("CLASSPATH: " + System.getProperty("java.class.path"));
+        System.out.println("Working Directory: " + new File(".").getAbsolutePath());
+        System.out.println("Root Path: " + new File("/").getAbsolutePath());
+
         if (url.isPresent()) {
             try {
                 Arrays.stream(
@@ -95,7 +104,7 @@ public class LoaderService {
 
     public Exporter getExporter(String exporterName) {
         if (!exporters.containsKey(exporterName)) {
-            throw new IllegalArgumentException("Exporter \"" + exporterName + "\"does not exist");
+            throw new IllegalArgumentException("Exporter \"" + exporterName + "\" does not exist");
         }
 
         return exporters.get(exporterName);

@@ -22,7 +22,7 @@ public class Helper {
     }
     public static Collector loadPrometheusCollector(ResourceLoader resourceLoader, String metric) {
         return new Yaml(new Constructor(Collector.class)).load(
-            resourceLoader.getResourceAsStream("exporters/prometheus/" + metric + ".yml").orElseThrow()
+            resourceLoader.getResourceAsStream("metrics/prometheus/" + metric + ".yml").orElseThrow()
         );
     }
 
